@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Q's Bookmarks</title>
+  <style>
+    :root {
+      --bg-color-light: #ffffff;
+      --text-color-light: #111111;
+      --bg-color-dark: #1e1e1e;
+      --text-color-dark: #e0e0e0;
+      --link-color: #61dafb;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background-color: var(--bg-color-dark);
+      color: var(--text-color-dark);
+      transition: background-color 0.3s, color 0.3s;
+      padding: 2rem;
+    }
+
+    body.light {
+      background-color: var(--bg-color-light);
+      color: var(--text-color-light);
+    }
+
+    .toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border: none;
+      background: #444;
+      color: #fff;
+      border-radius: 0.25rem;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #666;
+      background: transparent;
+      color: inherit;
+    }
+
+    .category {
+      margin-bottom: 2rem;
+    }
+
+    .category h2 {
+      border-bottom: 1px solid #888;
+      padding-bottom: 0.25rem;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      margin: 0.5rem 0;
+    }
+
+    a {
+      color: var(--link-color);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <button class="toggle" onclick="toggleTheme()">Toggle Theme</button>
+  <h1>Q's Bookmarks</h1>
+  <input type="text" id="search" placeholder="Search bookmarks..." onkeyup="filterBookmarks()" />
+
+  <div class="category" data-category="Personal">
+    <h2>Personal</h2>
+    <ul>
+      <li><a href="https://startpage.com" target="_blank">Startpage</a></li>
+    </ul>
+  </div>
+
+  <div class="category" data-category="Entertainment">
+    <h2>Entertainment</h2>
+    <ul>
+      <li><a href="https://youtube.com" target="_blank">YouTube</a></li>
+    </ul>
+  </div>
+
+  <div class="category" data-category="Games">
+    <h2>Games</h2>
+    <ul>
+      <li><a href="https://store.steampowered.com" target="_blank">Steam</a></li>
+    </ul>
+  </div>
+
+  <div class="category" data-category="Shopping">
+    <h2>Shopping</h2>
+    <ul>
+      <li><a href="https://www.nordstromrack.com" target="_blank">Nordstrom Rack</a></li>
+    </ul>
+  </div>
+
+  <div class="category" data-category="Business">
+    <h2>Business</h2>
+    <ul>
+      <li><a href="https://github.com" target="_blank">GitHub</a></li>
+    </ul>
+  </div>
+
+  <div class="category" data-category="Research">
+    <h2>Research</h2>
+    <ul>
+      <li><a href="https://arxiv.org" target="_blank">arXiv</a></li>
+    </ul>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+      localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+    }
+
+    function setInitialTheme() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light') {
+        document.body.classList.add('light');
+      }
+    }
+
+    function filterBookmarks() {
+      const input = document.getElementById("search").value.toLowerCase();
+      const categories = document.querySelectorAll(".category");
+      categories.forEach(cat => {
+        const links = cat.querySelectorAll("li");
+        let visible = false;
+        links.forEach(link => {
+          const text = link.innerText.toLowerCase();
+          const match = text.includes(input);
+          link.style.display = match ? "" : "none";
+          if (match) visible = true;
+        });
+        cat.style.display = visible ? "" : "none";
+      });
+    }
+
+    setInitialTheme();
+  </script>
+</body>
+</html>

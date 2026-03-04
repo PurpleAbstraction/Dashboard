@@ -89,6 +89,11 @@
           "id": "x7t5nx4c",
           "name": "Know Before You Fly",
           "url": "http://www.knowbeforeyoufly.org/home"
+        },
+        {
+          "id": "x4hygkmb",
+          "name": "Tello Drone",
+          "url": "https://www.ryzerobotics.com/tello"
         }
       ]
     },
@@ -573,13 +578,7 @@
       "id": "x6kwbng2",
       "name": "Drones",
       "open": true,
-      "links": [
-        {
-          "id": "x4hygkmb",
-          "name": "Tello Drone",
-          "url": "https://www.ryzerobotics.com/tello"
-        }
-      ]
+      "links": []
     },
     {
       "id": "xz3a28km",

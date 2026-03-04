@@ -59,6 +59,11 @@
           "id": "xb2v2fku",
           "name": "Comic: Sysadminotaur",
           "url": "https://sysadminotaur.devolutions.net/"
+        },
+        {
+          "id": "xeqgcf8g",
+          "name": "Comic: xkcd",
+          "url": "https://xkcd.com/"
         }
       ]
     },
@@ -486,13 +491,7 @@
       "id": "x4axwxdx",
       "name": "Comics",
       "open": true,
-      "links": [
-        {
-          "id": "xeqgcf8g",
-          "name": "Comic: xkcd",
-          "url": "https://xkcd.com/"
-        }
-      ]
+      "links": []
     },
     {
       "id": "x5uzn7og",

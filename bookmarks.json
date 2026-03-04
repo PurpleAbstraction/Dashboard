@@ -44,6 +44,11 @@
           "id": "x2pbl2r7",
           "name": "Comic: Get Fuzzy",
           "url": "https://www.gocomics.com/getfuzzy"
+        },
+        {
+          "id": "xycfizpu",
+          "name": "Comic: Non Sequitur",
+          "url": "https://www.gocomics.com/nonsequitur"
         }
       ]
     },
@@ -472,11 +477,6 @@
       "name": "Comics",
       "open": true,
       "links": [
-        {
-          "id": "xycfizpu",
-          "name": "Comic: Non Sequitur",
-          "url": "https://www.gocomics.com/nonsequitur"
-        },
         {
           "id": "xpwm7e51",
           "name": "Comic: Pearls Before Swine",

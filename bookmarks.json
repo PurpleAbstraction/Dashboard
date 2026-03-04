@@ -14,6 +14,11 @@
           "id": "l2",
           "name": "MDN Web Docs",
           "url": "https://developer.mozilla.org"
+        },
+        {
+          "id": "xvo883ue",
+          "name": "Chess Puzzles",
+          "url": "http://www.chesspuzzles.com/"
         }
       ]
     },
@@ -430,11 +435,6 @@
       "name": "Entertainment",
       "open": true,
       "links": [
-        {
-          "id": "xvo883ue",
-          "name": "Chess Puzzles",
-          "url": "http://www.chesspuzzles.com/"
-        },
         {
           "id": "x9j7ev2b",
           "name": "Chess Puzzles - 365Chess",

@@ -99,6 +99,11 @@
           "id": "xiihyfwz",
           "name": "NASA",
           "url": "https://www.nasa.gov/"
+        },
+        {
+          "id": "xevqitef",
+          "name": "NASA - Moon",
+          "url": "https://science.nasa.gov/moon/"
         }
       ]
     },
@@ -584,11 +589,6 @@
       "name": "NASA",
       "open": true,
       "links": [
-        {
-          "id": "xevqitef",
-          "name": "NASA - Moon",
-          "url": "https://science.nasa.gov/moon/"
-        },
         {
           "id": "xwmgi49w",
           "name": "NASA - Spot The Station",

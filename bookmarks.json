@@ -118,11 +118,6 @@
           "id": "xsgy732z",
           "name": "SimHub",
           "url": "http://192.168.1.32:8888/"
-        },
-        {
-          "id": "x8dac89u",
-          "name": "YouTube",
-          "url": "https://www.youtube.com/"
         }
       ]
     },
@@ -459,6 +454,11 @@
           "id": "xej5djts",
           "name": "Chess.com",
           "url": "https://www.chess.com/"
+        },
+        {
+          "id": "x8dac89u",
+          "name": "YouTube",
+          "url": "https://www.youtube.com/"
         }
       ]
     },

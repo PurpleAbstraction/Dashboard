@@ -29,6 +29,11 @@
           "id": "xej5djts",
           "name": "Chess.com",
           "url": "https://www.chess.com/"
+        },
+        {
+          "id": "xwq5jsqr",
+          "name": "Comic: B.C.",
+          "url": "https://www.gocomics.com/bc"
         }
       ]
     },
@@ -462,11 +467,6 @@
       "name": "Comics",
       "open": true,
       "links": [
-        {
-          "id": "xwq5jsqr",
-          "name": "Comic: B.C.",
-          "url": "https://www.gocomics.com/bc"
-        },
         {
           "id": "x2pbl2r7",
           "name": "Comic: Get Fuzzy",

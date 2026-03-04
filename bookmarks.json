@@ -24,6 +24,11 @@
           "id": "x9j7ev2b",
           "name": "Chess Puzzles - 365Chess",
           "url": "https://www.365chess.com/puzzles.php"
+        },
+        {
+          "id": "xej5djts",
+          "name": "Chess.com",
+          "url": "https://www.chess.com/"
         }
       ]
     },
@@ -440,11 +445,6 @@
       "name": "Entertainment",
       "open": true,
       "links": [
-        {
-          "id": "xej5djts",
-          "name": "Chess.com",
-          "url": "https://www.chess.com/"
-        },
         {
           "id": "x8dac89u",
           "name": "YouTube",

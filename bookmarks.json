@@ -114,6 +114,11 @@
           "id": "x1rn3kqy",
           "name": "NASA Europa Clipper - Message In A Bottle",
           "url": "https://europa.nasa.gov/message-in-a-bottle/join-us/"
+        },
+        {
+          "id": "x9txi8jy",
+          "name": "NASA VIPER - Fly your name to the Moon",
+          "url": "https://www3.nasa.gov/send-your-name-with-viper/"
         }
       ]
     },
@@ -598,13 +603,7 @@
       "id": "xz3a28km",
       "name": "NASA",
       "open": true,
-      "links": [
-        {
-          "id": "x9txi8jy",
-          "name": "NASA VIPER - Fly your name to the Moon",
-          "url": "https://www3.nasa.gov/send-your-name-with-viper/"
-        }
-      ]
+      "links": []
     },
     {
       "id": "xiiyy9yh",

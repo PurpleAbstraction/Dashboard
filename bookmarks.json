@@ -34,6 +34,11 @@
           "id": "xwq5jsqr",
           "name": "Comic: B.C.",
           "url": "https://www.gocomics.com/bc"
+        },
+        {
+          "id": "l3",
+          "name": "Hacker News",
+          "url": "https://news.ycombinator.com"
         }
       ]
     },
@@ -42,11 +47,6 @@
       "name": "AI",
       "open": true,
       "links": [
-        {
-          "id": "l3",
-          "name": "Hacker News",
-          "url": "https://news.ycombinator.com"
-        },
         {
           "id": "x8kj59yi",
           "name": "Perplexity",

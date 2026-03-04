@@ -74,6 +74,11 @@
           "id": "xrfbkc1h",
           "name": "FAA Recreational Flyers & Modeler Community-Based Organizations",
           "url": "https://www.faa.gov/uas/recreational_fliers/"
+        },
+        {
+          "id": "xsvv9zge",
+          "name": "FAA UAS (Drones) Getting Started",
+          "url": "https://www.faa.gov/uas/getting_started/"
         }
       ]
     },
@@ -559,11 +564,6 @@
       "name": "Drones",
       "open": true,
       "links": [
-        {
-          "id": "xsvv9zge",
-          "name": "FAA UAS (Drones) Getting Started",
-          "url": "https://www.faa.gov/uas/getting_started/"
-        },
         {
           "id": "xuv87ylt",
           "name": "FAADroneZone - Recreational Flyer Dashboard",

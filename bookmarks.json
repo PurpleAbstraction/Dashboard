@@ -79,6 +79,11 @@
           "id": "xsvv9zge",
           "name": "FAA UAS (Drones) Getting Started",
           "url": "https://www.faa.gov/uas/getting_started/"
+        },
+        {
+          "id": "xuv87ylt",
+          "name": "FAADroneZone - Recreational Flyer Dashboard",
+          "url": "https://faadronezone.faa.gov/#/home"
         }
       ]
     },
@@ -564,11 +569,6 @@
       "name": "Drones",
       "open": true,
       "links": [
-        {
-          "id": "xuv87ylt",
-          "name": "FAADroneZone - Recreational Flyer Dashboard",
-          "url": "https://faadronezone.faa.gov/#/home"
-        },
         {
           "id": "x7t5nx4c",
           "name": "Know Before You Fly",

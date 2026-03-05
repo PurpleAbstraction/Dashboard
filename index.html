@@ -1438,26 +1438,66 @@ const RSS2JSON = 'https://api.rss2json.com/v1/api.json?rss_url=';
 let currentRssUrl = localStorage.getItem('nexus_rss_url') || '';
 if (currentRssUrl) { document.getElementById('rssUrl').value = currentRssUrl; loadRss(currentRssUrl); }
 
-function loadRss(url) {
+function renderRssItems(items) {
+  if (!items.length) {
+    document.getElementById('rssItems').innerHTML = '<div class="rss-placeholder">No items found in feed.</div>';
+    return;
+  }
+  document.getElementById('rssItems').innerHTML = items.slice(0, 15).map(item => {
+    const date = item.date ? new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+    return `<div class="rss-item">
+      <a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a>
+      ${date ? `<div class="rss-item-date">${date}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function parseRssXml(xml) {
+  const doc = new DOMParser().parseFromString(xml, 'text/xml');
+  const isAtom = !!doc.querySelector('feed');
+  const entries = isAtom
+    ? Array.from(doc.querySelectorAll('entry'))
+    : Array.from(doc.querySelectorAll('item'));
+  return entries.map(el => {
+    const title = el.querySelector('title')?.textContent?.trim() || '(no title)';
+    const link = isAtom
+      ? (el.querySelector('link[rel="alternate"]')?.getAttribute('href') || el.querySelector('link')?.getAttribute('href') || '')
+      : (el.querySelector('link')?.textContent?.trim() || '');
+    const date = el.querySelector('pubDate, published, updated')?.textContent?.trim() || '';
+    return { title, link, date };
+  }).filter(i => i.link);
+}
+
+async function loadRss(url) {
   if (!url) return;
   document.getElementById('rssItems').innerHTML = '<div class="rss-placeholder">Loading…</div>';
-  fetch(RSS2JSON + encodeURIComponent(url))
-    .then(r => r.json())
-    .then(data => {
-      if (data.status !== 'ok') throw new Error('Bad feed');
-      const items = data.items.slice(0, 15);
-      if (!items.length) { document.getElementById('rssItems').innerHTML = '<div class="rss-placeholder">No items found.</div>'; return; }
-      document.getElementById('rssItems').innerHTML = items.map(item => {
-        const date = item.pubDate ? new Date(item.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
-        return `<div class="rss-item">
-          <a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>
-          ${date ? `<div class="rss-item-date">${date}</div>` : ''}
-        </div>`;
-      }).join('');
-    })
-    .catch(() => {
-      document.getElementById('rssItems').innerHTML = '<div class="rss-placeholder">Could not load feed.<br>Check the URL or try another.</div>';
-    });
+
+  // Try rss2json first
+  try {
+    const res = await fetch(RSS2JSON + encodeURIComponent(url));
+    const data = await res.json();
+    if (data.status === 'ok' && data.items?.length) {
+      renderRssItems(data.items.map(i => ({ title: i.title, link: i.link, date: i.pubDate })));
+      return;
+    }
+  } catch (_) { /* fall through to XML fallback */ }
+
+  // Fallback: fetch raw XML via corsproxy.io and parse ourselves
+  try {
+    const proxyUrl = `https://corsproxy.io/?url=${encodeURIComponent(url)}`;
+    const res = await fetch(proxyUrl);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const text = await res.text();
+    const items = parseRssXml(text);
+    if (items.length) {
+      renderRssItems(items);
+      return;
+    }
+    throw new Error('No items parsed');
+  } catch (err) {
+    document.getElementById('rssItems').innerHTML =
+      `<div class="rss-placeholder">Could not load feed.<br><span style="font-size:11px;opacity:.7;">Check the URL or try another.<br>${err.message}</span></div>`;
+  }
 }
 
 document.getElementById('rssLoadBtn').addEventListener('click', () => {

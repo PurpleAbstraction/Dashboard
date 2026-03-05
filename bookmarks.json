@@ -139,7 +139,7 @@
         },
         {
           "id": "x7lywk92",
-          "name": "DALLÂ·E 2",
+          "name": "DALLÃÂ·E 2",
           "url": "https://openai.com/product/dall-e-2"
         },
         {
@@ -573,7 +573,7 @@
     {
       "id": "xkmtcjnp",
       "name": "Entertainment",
-      "open": false,
+      "open": true,
       "links": [
         {
           "id": "x8dac89u",

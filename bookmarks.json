@@ -166,6 +166,11 @@
           "id": "xce858lp",
           "name": "OpenAI API - User Settings",
           "url": "https://platform.openai.com/account/profile"
+        },
+        {
+          "id": "x0kje665",
+          "name": "SOUNDRAW - AI Music Generator",
+          "url": "https://soundraw.io/"
         }
       ]
     },
@@ -577,11 +582,6 @@
       "name": "AI Tools",
       "open": true,
       "links": [
-        {
-          "id": "x0kje665",
-          "name": "SOUNDRAW - AI Music Generator",
-          "url": "https://soundraw.io/"
-        },
         {
           "id": "xr0suwwd",
           "name": "Stable Diffusion - Hugging Face",

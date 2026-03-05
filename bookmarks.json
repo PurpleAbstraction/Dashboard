@@ -220,6 +220,11 @@
           "id": "xc8ica2z",
           "name": "Proton Calendar",
           "url": "https://calendar.proton.me/"
+        },
+        {
+          "id": "xsh5mnc5",
+          "name": "Proton Drive",
+          "url": "https://drive.proton.me/"
         }
       ]
     },

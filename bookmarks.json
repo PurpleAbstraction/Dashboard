@@ -584,6 +584,11 @@
           "id": "x4x54lmk",
           "name": "Apple TV+",
           "url": "https://tv.apple.com/"
+        },
+        {
+          "id": "xjlbomk3",
+          "name": "Nebula",
+          "url": "https://nebula.tv/"
         }
       ]
     },

@@ -108,6 +108,25 @@ GitHub tokens expire based on the duration you set. When yours is close to expir
 
 ---
 
+## Troubleshooting
+
+**Save failed: "does not match"**
+This happens when `bookmarks.json` was updated in GitHub from another browser or device, leaving the dashboard holding a stale SHA. The current version detects this automatically, silently fetches the correct SHA, and retries the save. If you're on an older version, a hard refresh (`Cmd+Shift+R` / `Ctrl+Shift+R`) will re-sync the SHA on load.
+
+**Bookmarks not loading / showing cached data**
+If the dashboard can't reach the GitHub API (network issue, expired token), it falls back to a locally cached copy. Check the **● GitHub** indicator in the header — if it shows an error, click it to verify your token is still valid. Tokens expire based on the duration set when created (90 days recommended).
+
+**Import only showing one folder**
+Safari and Firefox structure their bookmark HTML exports differently. If only one category appears after import, make sure you're using a direct export from the browser itself (File → Export Bookmarks in Safari, or Manage Bookmarks → Export in Firefox) rather than a file that's been edited or re-saved.
+
+**Favicons not loading**
+Favicons are fetched from Google's favicon service. If a favicon doesn't appear, the site either doesn't have one or the request was blocked. This is cosmetic only and doesn't affect functionality.
+
+**GitHub Pages showing old version after update**
+GitHub Pages can take a minute or two to reflect changes after a push. If you're seeing a stale version, wait a moment and do a hard refresh (`Cmd+Shift+R` / `Ctrl+Shift+R`).
+
+---
+
 ## Roadmap
 
 - [ ] Drag-and-drop category and link reordering

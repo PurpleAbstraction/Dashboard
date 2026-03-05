@@ -670,6 +670,80 @@
   .import-link-tag.dupe { opacity: 0.4; text-decoration: line-through; }
   .import-link-tag.dupe::after { content: ' (dupe)'; font-size: 10px; color: var(--text-muted); }
 
+  /* ── WEB SEARCH PANEL ── */
+  .search-engines {
+    display: flex;
+    gap: 4px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .engine-btn {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 6px 4px;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all var(--transition);
+    text-align: center;
+  }
+  .engine-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .engine-btn.active { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+  .engine-btn.active.perplexity { background: var(--accent2); border-color: var(--accent2); }
+  .engine-btn.active.brave { background: #c96eb4; border-color: #c96eb4; }
+
+  .web-search-row {
+    display: flex;
+    gap: 6px;
+    padding: 10px 14px;
+  }
+
+  #webSearchInput {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    padding: 7px 10px;
+    font-family: 'Inconsolata', monospace;
+    font-size: 13px;
+    outline: none;
+    transition: border-color var(--transition);
+  }
+  #webSearchInput:focus { border-color: var(--accent); }
+  #webSearchInput::placeholder { color: var(--text-muted); }
+
+  .web-search-go {
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    color: var(--bg);
+    cursor: pointer;
+    padding: 7px 14px;
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    transition: opacity var(--transition);
+    white-space: nowrap;
+  }
+  .web-search-go:hover { opacity: 0.85; }
+
+  .engine-note {
+    padding: 6px 14px 10px;
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    min-height: 32px;
+  }
+
   @media (max-width: 860px) {
     .shell {
       grid-template-columns: 1fr;
@@ -701,27 +775,21 @@
       gap: 6px;
     }
 
-    /* Hide button text labels on mobile, show icons only */
     .icon-btn span, .icon-btn { font-size: 0; padding: 7px 8px; }
     .icon-btn svg { width: 15px; height: 15px; }
     #syncStatus { font-size: 11px !important; }
 
-    /* Stack aside panels below main */
     aside { gap: 16px; }
 
-    /* Make category link chips wrap better on small screens */
     .links-body { gap: 4px; }
     .link-chip { font-size: 12px; padding: 5px 8px; }
   }
 
   @media (max-width: 480px) {
     .shell { padding: 0 12px 32px; }
-
     header { gap: 8px; }
-
     .category-header { padding: 10px 12px; }
     .links-body { padding: 10px 12px; }
-
     .modal { padding: 18px; }
     .import-modal { max-height: 92vh; }
   }
@@ -771,6 +839,23 @@
   </main>
 
   <aside>
+    <!-- Web Search -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Web Search</span>
+      </div>
+      <div class="search-engines">
+        <button class="engine-btn active" data-engine="ddg">DDG</button>
+        <button class="engine-btn perplexity" data-engine="perplexity">Perplexity</button>
+        <button class="engine-btn brave" data-engine="brave">Brave</button>
+      </div>
+      <div class="web-search-row">
+        <input type="text" id="webSearchInput" placeholder="Search the web…" autocomplete="off">
+        <button class="web-search-go" id="webSearchGo">Go</button>
+      </div>
+      <div class="engine-note" id="engineNote"></div>
+    </div>
+
     <!-- Scratch Pad -->
     <div class="panel">
       <div class="panel-header">
@@ -1596,6 +1681,61 @@ document.getElementById('importCommit').addEventListener('click', () => {
   render();
   showToast(`Imported ${added} link${added !== 1 ? 's' : ''}!`);
 });
+
+// ── WEB SEARCH ────────────────────────────────────────────────────────
+const ENGINES = {
+  ddg: {
+    label: 'DuckDuckGo',
+    note: 'No AI · No ads · Dark mode · Private',
+    url: q => `https://duckduckgo.com/?q=${encodeURIComponent(q)}&kae=d&k1=-1&kav=1&kac=-1&kp=-2&k5=1&kaw=1`,
+  },
+  perplexity: {
+    label: 'Perplexity',
+    note: 'AI-powered answers · Log in for full features',
+    url: q => `https://www.perplexity.ai/search?q=${encodeURIComponent(q)}`,
+  },
+  brave: {
+    label: 'Brave Search',
+    note: 'Independent index · AI summary unavoidable without account',
+    url: q => `https://search.brave.com/search?q=${encodeURIComponent(q)}&source=web&safesearch=off`,
+  },
+};
+
+let _activeEngine = localStorage.getItem('nexus_engine') || 'ddg';
+
+function setEngine(key) {
+  _activeEngine = key;
+  localStorage.setItem('nexus_engine', key);
+  document.querySelectorAll('.engine-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.engine === key);
+  });
+  document.getElementById('engineNote').textContent = ENGINES[key].note;
+  // Update Go button color to match active engine
+  const colors = { ddg: 'var(--accent)', perplexity: 'var(--accent2)', brave: '#c96eb4' };
+  const go = document.getElementById('webSearchGo');
+  go.style.background = colors[key];
+  go.style.borderColor = colors[key];
+  go.style.color = key === 'ddg' ? 'var(--bg)' : 'var(--bg)';
+}
+
+function doWebSearch() {
+  const q = document.getElementById('webSearchInput').value.trim();
+  if (!q) return;
+  window.open(ENGINES[_activeEngine].url(q), '_blank', 'noopener');
+}
+
+document.querySelectorAll('.engine-btn').forEach(btn => {
+  btn.addEventListener('click', () => setEngine(btn.dataset.engine));
+});
+
+document.getElementById('webSearchGo').addEventListener('click', doWebSearch);
+
+document.getElementById('webSearchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doWebSearch();
+});
+
+// Init engine state
+setEngine(_activeEngine);
 
 // ── TOKEN SAVE ────────────────────────────────────────────────────────
 document.getElementById('tokenSave').addEventListener('click', () => {

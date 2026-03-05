@@ -171,6 +171,11 @@
           "id": "x0kje665",
           "name": "SOUNDRAW - AI Music Generator",
           "url": "https://soundraw.io/"
+        },
+        {
+          "id": "xr0suwwd",
+          "name": "Stable Diffusion - Hugging Face",
+          "url": "https://huggingface.co/spaces/stabilityai/stable-diffusion"
         }
       ]
     },
@@ -582,11 +587,6 @@
       "name": "AI Tools",
       "open": true,
       "links": [
-        {
-          "id": "xr0suwwd",
-          "name": "Stable Diffusion - Hugging Face",
-          "url": "https://huggingface.co/spaces/stabilityai/stable-diffusion"
-        },
         {
           "id": "xhqpz49h",
           "name": "Prompt Engineering Guide",

@@ -98,6 +98,7 @@ GitHub tokens expire based on the duration you set. When yours is close to expir
 - [ ] Web search widget (DuckDuckGo / Perplexity / Brave)
 - [ ] Multiple RSS feeds
 - [ ] Search clear button positioning fix
+- [ ] Responsive / mobile layout
 
 ---
 

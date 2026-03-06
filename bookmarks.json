@@ -585,6 +585,11 @@
           "id": "xpsd5zj0",
           "name": "Peloton",
           "url": "https://members.onepeloton.com/classes"
+        },
+        {
+          "id": "xdprg0zt",
+          "name": "Obsidian",
+          "url": "https://obsidian.md/"
         }
       ],
       "pinned": false,
@@ -629,11 +634,6 @@
           "id": "xfn695lp",
           "name": "iCloud",
           "url": "https://www.icloud.com/"
-        },
-        {
-          "id": "xdprg0zt",
-          "name": "Obsidian",
-          "url": "https://obsidian.md/"
         },
         {
           "id": "xf0o61w2",

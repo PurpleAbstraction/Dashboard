@@ -653,14 +653,48 @@
     display: none;
   }
 
-  /* Accent line on left of categories */
-  .category { border-left: 3px solid transparent; }
-  .category:nth-child(1) { border-left-color: var(--accent); }
-  .category:nth-child(2) { border-left-color: var(--accent2); }
-  .category:nth-child(3) { border-left-color: #c96eb4; }
-  .category:nth-child(4) { border-left-color: #6ec98a; }
-  .category:nth-child(5) { border-left-color: #c9a06e; }
-  .category:nth-child(6) { border-left-color: #9e6ec9; }
+  /* Category accent — driven by inline style now, fallback for uncolored */
+  .category { border-left: 3px solid var(--border); }
+  .category.pinned {
+    border: 1px solid var(--accent);
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .category.pinned::after {
+    content: '▲ PINNED';
+    position: absolute;
+    top: -9px;
+    left: 12px;
+    font-family: 'Syne', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    background: var(--bg);
+    padding: 0 6px;
+  }
+
+  /* Color picker inline */
+  .cat-color-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .color-swatch {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 150ms ease, border-color 150ms ease;
+    flex-shrink: 0;
+  }
+  .color-swatch:hover { transform: scale(1.2); }
+  .color-swatch.selected { border-color: var(--text); transform: scale(1.15); }
 
   /* Toast */
   .toast {
@@ -1239,6 +1273,201 @@ function faviconUrl(url) {
 }
 
 // ── RENDER ────────────────────────────────────────────────────────────
+const CAT_COLORS = [
+  '#c8a96e', '#7eb8c9', '#c96eb4', '#6ec98a',
+  '#c9a06e', '#9e6ec9', '#c96e6e', '#6e9ec9',
+  '#c9c96e', '#6ec9b4'
+];
+
+function renderCategory(cat, container, q, isPinned) {
+  const filteredLinks = q
+    ? cat.links.filter(l => l.name.toLowerCase().includes(q) || l.url.toLowerCase().includes(q))
+    : cat.links;
+
+  if (q && filteredLinks.length === 0) return false;
+
+  const color = cat.color || 'var(--border)';
+  const catEl = document.createElement('div');
+  catEl.className = 'category' + (isPinned ? ' pinned open' : (cat.open || q ? ' open' : ''));
+  catEl.dataset.catId = cat.id;
+  catEl.style.borderLeftColor = color;
+  if (isPinned) catEl.style.borderColor = color;
+
+  // Header
+  const hdr = document.createElement('div');
+  hdr.className = 'category-header';
+
+  const chevron = isPinned ? '' : `<svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>`;
+  const nameSpan = `<span class="category-name" style="color:${color !== 'var(--border)' ? color : ''}">${cat.name}</span>`;
+  const countSpan = `<span class="category-count">${cat.links.length}</span>`;
+
+  const catActions = document.createElement('div');
+  catActions.className = 'cat-actions';
+  catActions.innerHTML = `
+    <button class="cat-btn pin-cat" title="${isPinned ? 'Unpin' : 'Pin to top'}" data-cat="${cat.id}">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="${isPinned ? 'var(--accent)' : 'currentColor'}" stroke-width="2"><path d="M12 2l3 7h6l-5 4 2 7-6-4-6 4 2-7-5-4h6z"/></svg>
+    </button>
+    <button class="cat-btn rename-cat" title="Rename &amp; color" data-cat="${cat.id}">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    </button>
+    <button class="cat-btn danger delete-cat" title="Delete" data-cat="${cat.id}">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+    </button>`;
+
+  hdr.innerHTML = chevron + nameSpan + countSpan;
+  hdr.appendChild(catActions);
+
+  // Toggle open (not for pinned)
+  if (!isPinned) {
+    hdr.addEventListener('click', (e) => {
+      if (e.target.closest('.cat-actions')) return;
+      if (hdr.querySelector('.category-name-input')) return;
+      cat.open = !cat.open;
+      saveData();
+      catEl.classList.toggle('open', cat.open);
+    });
+  }
+
+  catEl.appendChild(hdr);
+
+  // Links body
+  const body = document.createElement('div');
+  body.className = 'links-body';
+
+  filteredLinks.forEach(link => {
+    const a = document.createElement('a');
+    a.className = 'link-chip';
+    a.href = link.url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.dataset.linkId = link.id;
+    a.dataset.catId = cat.id;
+
+    const fav = faviconUrl(link.url);
+    a.innerHTML = `
+      ${fav ? `<img class="link-favicon" src="${fav}" alt="" onerror="this.style.display='none'">` : ''}
+      <span>${link.name}</span>
+      <button class="link-edit-btn" title="Edit link">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </button>
+      <button class="link-del-btn" title="Delete link">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>`;
+
+    a.querySelector('.link-edit-btn').addEventListener('click', (e) => {
+      e.preventDefault(); e.stopPropagation();
+      openLinkModal(cat.id, link.id);
+    });
+    a.querySelector('.link-del-btn').addEventListener('click', (e) => {
+      e.preventDefault(); e.stopPropagation();
+      if (confirm(`Delete "${link.name}"?`)) {
+        cat.links = cat.links.filter(l => l.id !== link.id);
+        saveData(); render(document.getElementById('search').value);
+        showToast('Link deleted.');
+      }
+    });
+    body.appendChild(a);
+  });
+
+  // Add link row
+  const addRow = document.createElement('div');
+  addRow.className = 'add-link-row';
+  addRow.innerHTML = `
+    <button class="add-link-btn open-add" data-cat="${cat.id}">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add link
+    </button>`;
+  addRow.querySelector('.open-add').addEventListener('click', () => openLinkModal(cat.id, null));
+  body.appendChild(addRow);
+  catEl.appendChild(body);
+
+  // ── Pin handler
+  catEl.querySelector('.pin-cat').addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (isPinned) {
+      cat.pinned = false;
+    } else {
+      // Unpin any existing pinned
+      appData.categories.forEach(c => c.pinned = false);
+      cat.pinned = true;
+    }
+    saveData();
+    render(document.getElementById('search').value);
+    showToast(cat.pinned ? `"${cat.name}" pinned to top.` : 'Unpinned.');
+  });
+
+  // ── Rename + color picker handler
+  catEl.querySelector('.rename-cat').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const nameEl = hdr.querySelector('.category-name');
+    const wrap = document.createElement('div');
+    wrap.style.flex = '1';
+
+    const input = document.createElement('input');
+    input.className = 'category-name-input';
+    input.value = cat.name;
+
+    // Color swatches
+    const colorRow = document.createElement('div');
+    colorRow.className = 'cat-color-row';
+    CAT_COLORS.forEach(c => {
+      const sw = document.createElement('div');
+      sw.className = 'color-swatch' + (cat.color === c ? ' selected' : '');
+      sw.style.background = c;
+      sw.title = c;
+      sw.addEventListener('click', (e) => {
+        e.stopPropagation();
+        cat.color = c;
+        colorRow.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+        sw.classList.add('selected');
+      });
+      colorRow.appendChild(sw);
+    });
+    // "No color" swatch
+    const noColor = document.createElement('div');
+    noColor.className = 'color-swatch' + (!cat.color ? ' selected' : '');
+    noColor.style.cssText = 'background: var(--surface2); border: 1px dashed var(--text-muted);';
+    noColor.title = 'No color';
+    noColor.addEventListener('click', (e) => {
+      e.stopPropagation();
+      cat.color = null;
+      colorRow.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+      noColor.classList.add('selected');
+    });
+    colorRow.appendChild(noColor);
+
+    wrap.appendChild(input);
+    wrap.appendChild(colorRow);
+    nameEl.replaceWith(wrap);
+    input.focus(); input.select();
+
+    function finishRename() {
+      const val = input.value.trim();
+      if (val) { cat.name = val; }
+      saveData();
+      render(document.getElementById('search').value);
+    }
+    input.addEventListener('blur', () => setTimeout(finishRename, 150));
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { input.blur(); }
+      if (e.key === 'Escape') { render(document.getElementById('search').value); }
+    });
+  });
+
+  // ── Delete handler
+  catEl.querySelector('.delete-cat').addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (confirm(`Delete category "${cat.name}" and all its links?`)) {
+      appData.categories = appData.categories.filter(c => c.id !== cat.id);
+      saveData(); render(document.getElementById('search').value);
+      showToast('Category deleted.');
+    }
+  });
+
+  container.appendChild(catEl);
+  return true;
+}
+
 function render(filter = '') {
   const container = document.getElementById('categoriesContainer');
   const noResults = document.getElementById('noResults');
@@ -1246,144 +1475,17 @@ function render(filter = '') {
   const q = filter.trim().toLowerCase();
   let anyVisible = false;
 
-  appData.categories.forEach((cat, catIdx) => {
-    const filteredLinks = q
-      ? cat.links.filter(l => l.name.toLowerCase().includes(q) || l.url.toLowerCase().includes(q))
-      : cat.links;
+  // Pinned category first
+  const pinned = appData.categories.find(c => c.pinned);
+  if (pinned) {
+    const visible = renderCategory(pinned, container, q, true);
+    if (visible) anyVisible = true;
+  }
 
-    if (q && filteredLinks.length === 0) return;
-    anyVisible = true;
-
-    const catEl = document.createElement('div');
-    catEl.className = 'category' + (cat.open || q ? ' open' : '');
-    catEl.dataset.catId = cat.id;
-
-    // Header
-    const hdr = document.createElement('div');
-    hdr.className = 'category-header';
-
-    const chevron = `<svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>`;
-    const nameSpan = `<span class="category-name">${cat.name}</span>`;
-    const countSpan = `<span class="category-count">${cat.links.length}</span>`;
-
-    const catActions = document.createElement('div');
-    catActions.className = 'cat-actions';
-    catActions.innerHTML = `
-      <button class="cat-btn rename-cat" title="Rename" data-cat="${cat.id}">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-      </button>
-      <button class="cat-btn danger delete-cat" title="Delete" data-cat="${cat.id}">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
-      </button>`;
-
-    hdr.innerHTML = chevron + nameSpan + countSpan;
-    hdr.appendChild(catActions);
-
-    // Toggle open
-    hdr.addEventListener('click', (e) => {
-      if (e.target.closest('.cat-actions')) return;
-      const nameInput = hdr.querySelector('.category-name-input');
-      if (nameInput) return;
-      cat.open = !cat.open;
-      saveData();
-      catEl.classList.toggle('open', cat.open);
-    });
-
-    catEl.appendChild(hdr);
-
-    // Links body
-    const body = document.createElement('div');
-    body.className = 'links-body';
-
-    filteredLinks.forEach(link => {
-      const chip = document.createElement('div');
-      chip.className = 'link-chip-wrap';
-      chip.style.display = 'flex';
-
-      const a = document.createElement('a');
-      a.className = 'link-chip';
-      a.href = link.url;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
-      a.dataset.linkId = link.id;
-      a.dataset.catId = cat.id;
-
-      const fav = faviconUrl(link.url);
-      a.innerHTML = `
-        ${fav ? `<img class="link-favicon" src="${fav}" alt="" onerror="this.style.display='none'">` : ''}
-        <span>${link.name}</span>
-        <button class="link-edit-btn" title="Edit link">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        </button>
-        <button class="link-del-btn" title="Delete link">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>`;
-
-      // Edit link
-      a.querySelector('.link-edit-btn').addEventListener('click', (e) => {
-        e.preventDefault(); e.stopPropagation();
-        openLinkModal(cat.id, link.id);
-      });
-
-      // Delete link
-      a.querySelector('.link-del-btn').addEventListener('click', (e) => {
-        e.preventDefault(); e.stopPropagation();
-        if (confirm(`Delete "${link.name}"?`)) {
-          cat.links = cat.links.filter(l => l.id !== link.id);
-          saveData(); render(document.getElementById('search').value);
-          showToast('Link deleted.');
-        }
-      });
-
-      body.appendChild(a);
-    });
-
-    // Add link row
-    const addRow = document.createElement('div');
-    addRow.className = 'add-link-row';
-    addRow.innerHTML = `
-      <button class="add-link-btn open-add" data-cat="${cat.id}">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        Add link
-      </button>`;
-    addRow.querySelector('.open-add').addEventListener('click', () => {
-      openLinkModal(cat.id, null);
-    });
-    body.appendChild(addRow);
-    catEl.appendChild(body);
-
-    // Rename handler
-    catEl.querySelector('.rename-cat').addEventListener('click', (e) => {
-      e.stopPropagation();
-      const nameEl = hdr.querySelector('.category-name');
-      const input = document.createElement('input');
-      input.className = 'category-name-input';
-      input.value = cat.name;
-      nameEl.replaceWith(input);
-      input.focus(); input.select();
-      function finishRename() {
-        const val = input.value.trim();
-        if (val) { cat.name = val; saveData(); }
-        render(document.getElementById('search').value);
-      }
-      input.addEventListener('blur', finishRename);
-      input.addEventListener('keydown', e => {
-        if (e.key === 'Enter') { input.blur(); }
-        if (e.key === 'Escape') { cat.name = cat.name; render(document.getElementById('search').value); }
-      });
-    });
-
-    // Delete category
-    catEl.querySelector('.delete-cat').addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (confirm(`Delete category "${cat.name}" and all its links?`)) {
-        appData.categories = appData.categories.filter(c => c.id !== cat.id);
-        saveData(); render(document.getElementById('search').value);
-        showToast('Category deleted.');
-      }
-    });
-
-    container.appendChild(catEl);
+  // Rest of categories
+  appData.categories.filter(c => !c.pinned).forEach(cat => {
+    const visible = renderCategory(cat, container, q, false);
+    if (visible) anyVisible = true;
   });
 
   noResults.style.display = (q && !anyVisible) ? 'block' : 'none';

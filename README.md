@@ -16,6 +16,7 @@ A self-hosted personal dashboard and bookmark manager. Lives in your GitHub repo
 - **Move links** — reassign any link to a different category via the edit modal
 - **Global quick-add** — add a link from the header without expanding any category first
 - **Alphabetical sort** — sort all categories and their links A–Z in one click
+- **Drag-and-drop reordering** — drag categories into any order; drag links within a category to reorder them
 - **GitHub-backed storage** — bookmarks saved to `bookmarks.json` via the GitHub API with live sync status; auto-retries on SHA conflicts
 
 ### Import & Export
@@ -164,8 +165,7 @@ GitHub Pages can take a minute or two to reflect changes after a push. If you're
 
 ## Roadmap
 
-- [ ] Drag-and-drop category and link reordering
-- [ ] Multiple RSS feeds stored in GitHub JSON (future consideration)
+- [ ] Improved category color picker — full spectrum or expanded palette
 
 ---
 
@@ -181,5 +181,3 @@ No frameworks. No build step. No package manager.
 ---
 
 *Built with [Claude](https://claude.ai) — AI-assisted development at its finest.*
-
-

@@ -957,14 +957,19 @@
     <div class="panel">
       <div class="panel-header">
         <span class="panel-title">RSS Feeds</span>
-        <button class="icon-btn" id="rssRefresh" style="padding:3px 8px;font-size:11px;border:none;">↻ Refresh</button>
+        <div style="display:flex;gap:4px;align-items:center;">
+          <button class="icon-btn" id="rssEditBtn" style="padding:3px 8px;font-size:11px;">Edit</button>
+          <button class="icon-btn" id="rssRefresh" style="padding:3px 8px;font-size:11px;border:none;">↻ Refresh</button>
+        </div>
       </div>
-      <div class="rss-feed-list" id="rssFeedList">
-        <div class="rss-placeholder" style="padding:8px 0;">No feeds added yet.</div>
-      </div>
-      <div class="rss-add-row">
-        <input type="text" id="rssUrlInput" placeholder="Feed URL…">
-        <button class="rss-add-btn" id="rssAddBtn">+ Add</button>
+      <div id="rssMgmt" style="display:none;">
+        <div class="rss-feed-list" id="rssFeedList">
+          <div class="rss-placeholder" style="padding:8px 0;">No feeds added yet.</div>
+        </div>
+        <div class="rss-add-row">
+          <input type="text" id="rssUrlInput" placeholder="Feed URL…">
+          <button class="rss-add-btn" id="rssAddBtn">+ Add</button>
+        </div>
       </div>
       <div class="rss-filter-row">
         <select class="rss-filter-sel" id="rssFeedFilter">
@@ -1679,6 +1684,17 @@ async function loadAllFeeds() {
   }));
   renderRssItems();
 }
+
+// Edit toggle
+const rssMgmt = document.getElementById('rssMgmt');
+const rssEditBtn = document.getElementById('rssEditBtn');
+rssEditBtn.addEventListener('click', () => {
+  const open = rssMgmt.style.display === 'block';
+  rssMgmt.style.display = open ? 'none' : 'block';
+  rssEditBtn.textContent = open ? 'Edit' : 'Done';
+  rssEditBtn.style.color = open ? '' : 'var(--accent)';
+  rssEditBtn.style.borderColor = open ? '' : 'var(--accent)';
+});
 
 // Add feed
 document.getElementById('rssAddBtn').addEventListener('click', async () => {

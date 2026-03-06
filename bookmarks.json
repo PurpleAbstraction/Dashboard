@@ -590,6 +590,11 @@
           "id": "x4hygkmb",
           "name": "Tello Drone",
           "url": "https://www.ryzerobotics.com/tello"
+        },
+        {
+          "id": "xll6q4uy",
+          "name": "Pop!_OS",
+          "url": "https://system76.com/pop/download/"
         }
       ],
       "pinned": false,

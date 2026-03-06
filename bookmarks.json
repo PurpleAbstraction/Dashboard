@@ -131,7 +131,7 @@
     {
       "id": "xkmtcjnp",
       "name": "Entertainment",
-      "open": false,
+      "open": true,
       "links": [
         {
           "id": "x4x54lmk",
@@ -585,11 +585,6 @@
           "id": "xpsd5zj0",
           "name": "Peloton",
           "url": "https://members.onepeloton.com/classes"
-        },
-        {
-          "id": "xll6q4uy",
-          "name": "Pop!_OS",
-          "url": "https://system76.com/pop/download/"
         },
         {
           "id": "x4hygkmb",

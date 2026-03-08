@@ -1,55 +1,6 @@
 {
   "categories": [
     {
-      "id": "xeh3lg5j",
-      "name": "Business",
-      "open": true,
-      "links": [
-        {
-          "id": "xgigurid",
-          "name": "Chase Bank",
-          "url": "https://www.chase.com/"
-        },
-        {
-          "id": "xrghysk0",
-          "name": "Citi Bank",
-          "url": "https://citiretailservices.citibankonline.com/"
-        },
-        {
-          "id": "xcwl0y7l",
-          "name": "LinkedIn",
-          "url": "https://www.linkedin.com/feed/"
-        },
-        {
-          "id": "xynrwakp",
-          "name": "Progressive Insurance",
-          "url": "https://www.progressive.com/"
-        },
-        {
-          "id": "xw5cmov3",
-          "name": "TownSq (HOA)",
-          "url": "https://app.townsq.io/"
-        },
-        {
-          "id": "xzoncwuq",
-          "name": "Transamerica Retirement",
-          "url": "https://www.transamerica.com/portal/"
-        },
-        {
-          "id": "x2o1smr2",
-          "name": "Turbo Tax",
-          "url": "https://myturbotax.intuit.com/"
-        },
-        {
-          "id": "xk1uc74v",
-          "name": "US Passport",
-          "url": "https://travel.state.gov/content/travel/en/passports/how-apply/forms.html"
-        }
-      ],
-      "pinned": false,
-      "color": "#6ec98a"
-    },
-    {
       "id": "cat2",
       "name": "AI Tools",
       "open": false,
@@ -127,6 +78,94 @@
       ],
       "pinned": false,
       "color": "#6e9ec9"
+    },
+    {
+      "id": "xeh3lg5j",
+      "name": "Business",
+      "open": true,
+      "links": [
+        {
+          "id": "xgigurid",
+          "name": "Chase Bank",
+          "url": "https://www.chase.com/"
+        },
+        {
+          "id": "xrghysk0",
+          "name": "Citi Bank",
+          "url": "https://citiretailservices.citibankonline.com/"
+        },
+        {
+          "id": "xcwl0y7l",
+          "name": "LinkedIn",
+          "url": "https://www.linkedin.com/feed/"
+        },
+        {
+          "id": "xynrwakp",
+          "name": "Progressive Insurance",
+          "url": "https://www.progressive.com/"
+        },
+        {
+          "id": "xw5cmov3",
+          "name": "TownSq (HOA)",
+          "url": "https://app.townsq.io/"
+        },
+        {
+          "id": "xzoncwuq",
+          "name": "Transamerica Retirement",
+          "url": "https://www.transamerica.com/portal/"
+        },
+        {
+          "id": "x2o1smr2",
+          "name": "Turbo Tax",
+          "url": "https://myturbotax.intuit.com/"
+        },
+        {
+          "id": "xk1uc74v",
+          "name": "US Passport",
+          "url": "https://travel.state.gov/content/travel/en/passports/how-apply/forms.html"
+        }
+      ],
+      "pinned": false,
+      "color": "#6ec98a"
+    },
+    {
+      "id": "xkmtcjnp",
+      "name": "Entertainment",
+      "open": false,
+      "links": [
+        {
+          "id": "x4x54lmk",
+          "name": "Apple TV+",
+          "url": "https://tv.apple.com/"
+        },
+        {
+          "id": "xjlbomk3",
+          "name": "Nebula",
+          "url": "https://nebula.tv/"
+        },
+        {
+          "id": "xjs9yk77",
+          "name": "PBS",
+          "url": "https://www.pbs.org/"
+        },
+        {
+          "id": "xusrdur4",
+          "name": "Steam",
+          "url": "https://store.steampowered.com/"
+        },
+        {
+          "id": "xnoy9q3a",
+          "name": "Twitch",
+          "url": "https://www.twitch.tv/"
+        },
+        {
+          "id": "x8dac89u",
+          "name": "YouTube",
+          "url": "https://www.youtube.com/"
+        }
+      ],
+      "pinned": false,
+      "color": "#c96e6e"
     },
     {
       "id": "xmjqiqo8",
@@ -411,45 +450,6 @@
       ],
       "pinned": false,
       "color": "#7eb8c9"
-    },
-    {
-      "id": "xkmtcjnp",
-      "name": "Entertainment",
-      "open": false,
-      "links": [
-        {
-          "id": "x4x54lmk",
-          "name": "Apple TV+",
-          "url": "https://tv.apple.com/"
-        },
-        {
-          "id": "xjlbomk3",
-          "name": "Nebula",
-          "url": "https://nebula.tv/"
-        },
-        {
-          "id": "xjs9yk77",
-          "name": "PBS",
-          "url": "https://www.pbs.org/"
-        },
-        {
-          "id": "xusrdur4",
-          "name": "Steam",
-          "url": "https://store.steampowered.com/"
-        },
-        {
-          "id": "xnoy9q3a",
-          "name": "Twitch",
-          "url": "https://www.twitch.tv/"
-        },
-        {
-          "id": "x8dac89u",
-          "name": "YouTube",
-          "url": "https://www.youtube.com/"
-        }
-      ],
-      "pinned": false,
-      "color": "#c96e6e"
     },
     {
       "id": "cat1",

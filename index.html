@@ -1028,9 +1028,15 @@
     <div class="panel">
       <div class="panel-header">
         <span class="panel-title">Scratch Pad</span>
-        <button class="icon-btn" id="clearPad" style="padding:3px 8px;font-size:11px;">Clear</button>
+        <div style="display:flex;gap:4px;align-items:center;">
+          <button class="icon-btn" id="clearPad" style="padding:3px 8px;font-size:11px;">Clear</button>
+          <button class="icon-btn" id="savePad" style="padding:3px 8px;font-size:11px;border-color:var(--accent);color:var(--accent);">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Save
+          </button>
+        </div>
       </div>
-      <textarea id="scratchpad" placeholder="Quick notes, ideas, temporary text… auto-saved."></textarea>
+      <textarea id="scratchpad" placeholder="Quick notes, ideas, temporary text… auto-saved locally, sync with Save."></textarea>
       <div class="pad-status" id="padStatus"></div>
     </div>
 
@@ -1182,6 +1188,14 @@ async function loadData() {
     _ghSha = meta.sha;
     const decoded = atob(meta.content.replace(/\n/g, ''));
     appData = JSON.parse(decoded);
+    // GitHub wins — populate scratch pad if content exists
+    if (appData.scratch !== undefined) {
+      const pad = document.getElementById('scratchpad');
+      if (pad) {
+        pad.value = appData.scratch;
+        localStorage.setItem('nexus_scratch', appData.scratch);
+      }
+    }
     setStatus('ready');
     render();
   } catch (err) {
@@ -1190,6 +1204,10 @@ async function loadData() {
     const cached = localStorage.getItem('nexus_cache');
     if (cached) {
       appData = JSON.parse(cached);
+      if (appData.scratch !== undefined) {
+        const pad = document.getElementById('scratchpad');
+        if (pad) pad.value = appData.scratch;
+      }
       render();
       showToast('Offline — showing cached data.');
     }
@@ -1655,21 +1673,35 @@ document.getElementById('exportBtn').addEventListener('click', () => {
 // ── SCRATCH PAD ───────────────────────────────────────────────────────
 const pad = document.getElementById('scratchpad');
 const padStatus = document.getElementById('padStatus');
+
+// Load from localStorage on init (GitHub content will overwrite once loadData resolves)
 pad.value = localStorage.getItem('nexus_scratch') || '';
+
 let padTimer;
 pad.addEventListener('input', () => {
   clearTimeout(padTimer);
-  padStatus.textContent = 'Saving…';
+  padStatus.textContent = 'Saving locally…';
   padTimer = setTimeout(() => {
     localStorage.setItem('nexus_scratch', pad.value);
-    padStatus.textContent = 'Saved.';
+    padStatus.textContent = 'Saved locally.';
     setTimeout(() => { padStatus.textContent = ''; }, 1500);
   }, 800);
 });
 
+document.getElementById('savePad').addEventListener('click', async () => {
+  localStorage.setItem('nexus_scratch', pad.value);
+  appData.scratch = pad.value;
+  padStatus.textContent = 'Syncing…';
+  await saveData();
+  padStatus.textContent = '✓ Synced to GitHub.';
+  setTimeout(() => { padStatus.textContent = ''; }, 2000);
+});
+
 document.getElementById('clearPad').addEventListener('click', () => {
   if (pad.value && confirm('Clear scratch pad?')) {
-    pad.value = ''; localStorage.removeItem('nexus_scratch');
+    pad.value = '';
+    localStorage.removeItem('nexus_scratch');
+    appData.scratch = '';
     showToast('Scratch pad cleared.');
   }
 });

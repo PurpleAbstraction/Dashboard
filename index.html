@@ -727,21 +727,22 @@
   .cat-color-row {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     flex-wrap: wrap;
-    margin-top: 6px;
+    margin-top: 8px;
+    max-width: 260px;
   }
   .color-swatch {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     border: 2px solid transparent;
     cursor: pointer;
     transition: transform 150ms ease, border-color 150ms ease;
     flex-shrink: 0;
   }
-  .color-swatch:hover { transform: scale(1.2); }
-  .color-swatch.selected { border-color: var(--text); transform: scale(1.15); }
+  .color-swatch:hover { transform: scale(1.25); }
+  .color-swatch.selected { border-color: var(--text); transform: scale(1.2); }
 
   /* Toast */
   .toast {
@@ -1340,9 +1341,22 @@ function faviconUrl(url) {
 
 // ── RENDER ────────────────────────────────────────────────────────────
 const CAT_COLORS = [
-  '#c8a96e', '#7eb8c9', '#c96eb4', '#6ec98a',
-  '#c9a06e', '#9e6ec9', '#c96e6e', '#6e9ec9',
-  '#c9c96e', '#6ec9b4'
+  // Reds & pinks
+  '#c96e6e', '#c94444', '#e8756e', '#c96e96',
+  // Purples
+  '#c96eb4', '#9e6ec9', '#7b5ea7', '#6e6ec9',
+  // Blues
+  '#6e9ec9', '#7eb8c9', '#4a90c4', '#6eb4e8',
+  // Teals & greens
+  '#6ec9b4', '#6ec98a', '#5aaa7a', '#7ac96e',
+  // Yellows & oranges
+  '#c9c96e', '#c9a06e', '#c8a96e', '#e8a24a',
+  // Warm neutrals & earth
+  '#b8896a', '#a07850', '#c4a882', '#9a8060',
+  // Cool neutrals & slates
+  '#7a8fa0', '#8a9eb0', '#6e8c9e', '#9aaab8',
+  // Muted accents
+  '#9eb87a', '#b89a6e',
 ];
 
 function renderCategory(cat, container, q, isPinned) {

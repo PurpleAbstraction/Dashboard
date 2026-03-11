@@ -610,6 +610,11 @@
           "id": "x8khp2ar",
           "name": "Debian",
           "url": "https://www.debian.org/"
+        },
+        {
+          "id": "xs9z64fr",
+          "name": "Ubuntu Desktop",
+          "url": "https://ubuntu.com/desktop"
         }
       ],
       "pinned": false,

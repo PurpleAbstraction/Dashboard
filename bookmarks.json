@@ -3,7 +3,7 @@
     {
       "id": "cat2",
       "name": "AI Tools",
-      "open": true,
+      "open": false,
       "links": [
         {
           "id": "xon03h2k",
@@ -77,7 +77,7 @@
         }
       ],
       "pinned": false,
-      "color": "#9aaab8"
+      "color": "#6e9ec9"
     },
     {
       "id": "xeh3lg5j",
@@ -449,7 +449,7 @@
         }
       ],
       "pinned": false,
-      "color": "#4a90c4"
+      "color": "#7eb8c9"
     },
     {
       "id": "cat1",
@@ -600,6 +600,11 @@
           "id": "xcx895u5",
           "name": "Pop!_OS",
           "url": "https://system76.com/pop/download/"
+        },
+        {
+          "id": "x2v018cy",
+          "name": "Jellyfin",
+          "url": "https://jellyfin.org"
         }
       ],
       "pinned": false,
@@ -927,5 +932,5 @@
       "color": "#6ec9b4"
     }
   ],
-  "scratch": "- Phase 2 in progress\n- See roadmap in GitHub repo\n- Web-based game?"
+  "scratch": "- Phase 2 in progress\n- See roadmap in GitHub repo"
 }

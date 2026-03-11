@@ -605,6 +605,11 @@
           "id": "x4hygkmb",
           "name": "Tello Drone",
           "url": "https://www.ryzerobotics.com/tello"
+        },
+        {
+          "id": "x8khp2ar",
+          "name": "Debian",
+          "url": "https://www.debian.org/"
         }
       ],
       "pinned": false,

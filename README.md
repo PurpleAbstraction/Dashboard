@@ -178,6 +178,7 @@ GitHub Pages can take a minute or two to reflect changes. Wait a moment and do a
 
 - [ ] Morning Brief panel — AI-synthesized daily news brief from wire services (AP, Reuters, AFP), rendered neutral and fact-based via Claude API, with per-item Perplexity deep-dive links
 - [ ] Global search toggle — unified header search bar switchable between bookmark filtering and web search; omnibar with live bookmark results and a "Search the web for…" escape hatch
+- [ ] Fidget widget — restrained, ambient interaction panel inspired by the fidget cube; multiple interaction types with satisfying animation and optional sound; no game mechanics, no score; mouse and touch supported; designed to coexist with serious utility UI
 
 ---
 

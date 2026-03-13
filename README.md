@@ -45,6 +45,17 @@ A self-hosted personal dashboard and bookmark manager. Lives in your GitHub repo
 - **GitHub sync** — Save button pushes pad content into `bookmarks.json` alongside your bookmarks; syncs across devices on next load
 - **Clear button** — wipes the pad with confirmation
 
+### Fidget Widget
+- **Collapsible panel** — sits at the bottom of the sidebar, collapsed by default, expands on click
+- **Dial** — drag to rotate freely; subtle tick sound every 15° of rotation
+- **Ripple field** — click or hold and drag for cascading ripples with inner echo rings
+- **Clicky button** — satisfying low thock with depress animation and glow
+- **Rocker switch** — snaps between up/down with overshoot bounce and percussive crack
+- **Slider** — drag to position, springs back to center on release with a synced whoosh
+- **Toggle switches** — five independent switches tuned to a C major pentatonic scale
+- **Five accent themes** — Gold, Teal, Ember, Violet, Slate; persisted to localStorage
+- **Optional sound** — off by default; each interaction has its own character
+
 ### General
 - **Theme switcher** — warm dark and parchment light modes
 - **Clock** — live date and time in the header
@@ -118,6 +129,12 @@ The scratch pad auto-saves to localStorage as you type. To sync it across device
 
 ---
 
+## Fidget Widget
+
+The fidget panel sits at the bottom of the sidebar and is collapsed by default. Click the panel header to expand it. Theme and sound preferences are remembered between sessions. Sound is off by default — toggle it with the speaker icon in the panel header without needing to expand the panel first.
+
+---
+
 ## Data & Portability
 
 Your bookmarks live in `bookmarks.json` alongside `index.html`. You can edit it directly, back it up, or use it with other tools. The format is simple:
@@ -178,7 +195,6 @@ GitHub Pages can take a minute or two to reflect changes. Wait a moment and do a
 
 - [ ] Morning Brief panel — AI-synthesized daily news brief from wire services (AP, Reuters, AFP), rendered neutral and fact-based via Claude API, with per-item Perplexity deep-dive links
 - [ ] Global search toggle — unified header search bar switchable between bookmark filtering and web search; omnibar with live bookmark results and a "Search the web for…" escape hatch
-- [ ] Fidget widget — restrained, ambient interaction panel inspired by the fidget cube; multiple interaction types with satisfying animation and optional sound; no game mechanics, no score; mouse and touch supported; designed to coexist with serious utility UI
 
 ---
 

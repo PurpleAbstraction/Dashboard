@@ -902,6 +902,214 @@
     min-height: 32px;
   }
 
+  /* ── FIDGET WIDGET ── */
+  .fidget-body {
+    display: none;
+    overflow: hidden;
+  }
+  .fidget-body.open { display: block; }
+
+  .fidget-toggle-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: 'Inconsolata', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    padding: 2px 4px;
+    border-radius: 3px;
+    transition: color var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .fidget-toggle-btn:hover { color: var(--accent); }
+  .fidget-toggle-btn.on { color: var(--accent); }
+
+  .fidget-chevron {
+    color: var(--text-muted);
+    transition: transform var(--transition);
+    flex-shrink: 0;
+  }
+  .fidget-chevron.open { transform: rotate(90deg); }
+
+  /* Accent themes */
+  .fidget-panel-inner.theme-gold  { --accent:#c8a96e; --accent-dim:rgba(200,169,110,0.15); --accent-glow:rgba(200,169,110,0.3);  --ripple-color:rgba(200,169,110,0.35); }
+  .fidget-panel-inner.theme-teal  { --accent:#7eb8c9; --accent-dim:rgba(126,184,201,0.15); --accent-glow:rgba(126,184,201,0.3);  --ripple-color:rgba(126,184,201,0.35); }
+  .fidget-panel-inner.theme-ember { --accent:#c9784a; --accent-dim:rgba(201,120,74,0.15);  --accent-glow:rgba(201,120,74,0.3);   --ripple-color:rgba(201,120,74,0.35); }
+  .fidget-panel-inner.theme-violet{ --accent:#9e7ec9; --accent-dim:rgba(158,126,201,0.15); --accent-glow:rgba(158,126,201,0.3);  --ripple-color:rgba(158,126,201,0.35); }
+  .fidget-panel-inner.theme-slate { --accent:#7a8fa0; --accent-dim:rgba(122,143,160,0.15); --accent-glow:rgba(122,143,160,0.3);  --ripple-color:rgba(122,143,160,0.35); }
+
+  .fidget-grid {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    grid-template-rows: 110px 80px 80px;
+    gap: 1px;
+    background: var(--border);
+  }
+
+  .fidget-cell {
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    transition: background var(--transition);
+  }
+  .fidget-cell:hover { background: var(--surface2); }
+
+  .fidget-cell-ripple {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    cursor: crosshair;
+  }
+
+  .fidget-cell-slider {
+    padding: 0 16px;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .fidget-cell-switches {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 12px 14px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+
+  /* Theme dots */
+  .fidget-theme-dots { display: flex; gap: 5px; align-items: center; }
+  .fidget-theme-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    cursor: pointer; border: 2px solid transparent;
+    transition: transform 150ms ease, border-color 150ms ease;
+    flex-shrink: 0;
+  }
+  .fidget-theme-dot:hover { transform: scale(1.2); }
+  .fidget-theme-dot.active { border-color: var(--text); transform: scale(1.15); }
+
+  /* Dial */
+  .fidget-dial-wrap { position: relative; width: 68px; height: 68px; }
+  .fidget-dial-track {
+    position: absolute; inset: 0; border-radius: 50%;
+    background: var(--surface2); border: 2px solid var(--border);
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4);
+  }
+  .fidget-dial-knob {
+    position: absolute; inset: 8px; border-radius: 50%;
+    background: linear-gradient(145deg, #252830 0%, #1e2028 100%);
+    border: 1px solid var(--border); cursor: grab;
+    transition: box-shadow 100ms ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+  .fidget-dial-knob:active { cursor: grabbing; }
+  .fidget-dial-knob.spinning { box-shadow: 0 2px 12px var(--accent-glow); }
+  .fidget-dial-indicator {
+    position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+    width: 3px; height: 10px; background: var(--accent);
+    border-radius: 2px; box-shadow: 0 0 6px var(--accent-glow);
+  }
+
+  /* Clicky */
+  .fidget-clicky-btn {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: linear-gradient(145deg, #252830 0%, #1e2028 100%);
+    border: 2px solid var(--border); cursor: pointer;
+    transition: all 80ms ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .fidget-clicky-btn::after {
+    content: ''; width: 20px; height: 20px; border-radius: 50%;
+    background: var(--surface2); border: 1px solid var(--border);
+    transition: all 80ms ease;
+  }
+  .fidget-clicky-btn:active { transform: translateY(3px) scale(0.96); box-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+  .fidget-clicky-btn.pressed::after { background: var(--accent-dim); border-color: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+
+  /* Rocker */
+  .fidget-rocker-wrap { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .fidget-rocker-label {
+    font-size: 9px; letter-spacing: 0.1em; color: var(--text-muted);
+    text-transform: uppercase; font-family: 'Syne', sans-serif; transition: color var(--transition);
+  }
+  .fidget-rocker-label.active-label { color: var(--accent); }
+  .fidget-rocker {
+    width: 32px; height: 56px; background: var(--surface2);
+    border: 1px solid var(--border); border-radius: 6px;
+    position: relative; cursor: pointer;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.3); overflow: hidden;
+  }
+  .fidget-rocker-paddle {
+    position: absolute; left: 3px; right: 3px; height: 24px;
+    background: linear-gradient(145deg, #252830, #1e2028);
+    border: 1px solid var(--border); border-radius: 4px;
+    transition: top 120ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 120ms ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+  .fidget-rocker.up .fidget-rocker-paddle   { top: 3px; box-shadow: 0 3px 8px rgba(0,0,0,0.4), 0 0 0 1px var(--accent); }
+  .fidget-rocker.down .fidget-rocker-paddle { top: calc(100% - 27px); box-shadow: 0 -3px 8px rgba(0,0,0,0.4), 0 0 0 1px var(--accent); }
+
+  /* Slider */
+  .fidget-slider-track {
+    width: 100%; height: 4px; background: var(--surface2);
+    border-radius: 2px; border: 1px solid var(--border);
+    position: relative; cursor: pointer;
+  }
+  .fidget-slider-fill {
+    height: 100%; background: var(--accent); border-radius: 2px; width: 50%;
+    transition: width 400ms cubic-bezier(0.34, 1.2, 0.64, 1);
+    box-shadow: 0 0 6px var(--accent-glow);
+  }
+  .fidget-slider-thumb {
+    position: absolute; top: 50%; transform: translate(-50%, -50%);
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--surface);
+    box-shadow: 0 0 8px var(--accent-glow); cursor: grab;
+    transition: left 400ms cubic-bezier(0.34, 1.2, 0.64, 1), transform 80ms ease;
+    left: 50%;
+  }
+  .fidget-slider-thumb:active { cursor: grabbing; transform: translate(-50%, -50%) scale(1.2); }
+  .fidget-slider-thumb.dragging, .fidget-slider-fill.dragging { transition: none; }
+
+  /* Switches */
+  .fidget-switch-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
+  .fidget-switch-body {
+    width: 36px; height: 20px; border-radius: 10px;
+    background: var(--surface2); border: 1px solid var(--border);
+    position: relative; transition: background 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    box-shadow: inset 0 1px 4px rgba(0,0,0,0.3);
+  }
+  .fidget-switch-body.on { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+  .fidget-switch-nub {
+    position: absolute; top: 3px; left: 3px; width: 12px; height: 12px;
+    border-radius: 50%; background: var(--text-muted);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    transition: left 180ms cubic-bezier(0.34, 1.56, 0.64, 1), background 180ms ease;
+  }
+  .fidget-switch-body.on .fidget-switch-nub { left: 19px; background: var(--bg); }
+  .fidget-switch-num {
+    font-size: 9px; color: var(--text-muted);
+    font-family: 'Syne', sans-serif; letter-spacing: 0.08em; transition: color var(--transition);
+  }
+  .fidget-switch-wrap:hover .fidget-switch-num { color: var(--text-dim); }
+  .fidget-switch-body.on + .fidget-switch-num { color: var(--accent); }
+
+  /* Ripple canvas */
+  .fidget-ripple-canvas { width: 100%; height: 100%; display: block; cursor: crosshair; }
+
+  /* Cell label */
+  .fidget-cell-label {
+    position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%);
+    font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-muted); font-family: 'Syne', sans-serif;
+    white-space: nowrap; opacity: 0.6;
+  }
+
   @media (max-width: 860px) {
     .shell {
       grid-template-columns: 1fr;
@@ -1067,6 +1275,72 @@
       </div>
       <div class="rss-items" id="rssItems">
         <div class="rss-placeholder">Add a feed above to get started.</div>
+      </div>
+    </div>
+
+    <!-- Fidget Widget -->
+    <div class="panel">
+      <div class="panel-header" id="fidgetPanelHeader" style="cursor:pointer;">
+        <span class="panel-title">Fidget</span>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <div class="fidget-theme-dots" id="fidgetThemeDots">
+            <div class="fidget-theme-dot" style="background:#c8a96e;" data-ftheme="gold"   title="Gold"></div>
+            <div class="fidget-theme-dot" style="background:#7eb8c9;" data-ftheme="teal"   title="Teal"></div>
+            <div class="fidget-theme-dot" style="background:#c9784a;" data-ftheme="ember"  title="Ember"></div>
+            <div class="fidget-theme-dot" style="background:#9e7ec9;" data-ftheme="violet" title="Violet"></div>
+            <div class="fidget-theme-dot" style="background:#7a8fa0;" data-ftheme="slate"  title="Slate"></div>
+          </div>
+          <button class="fidget-toggle-btn" id="fidgetSoundBtn">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+          </button>
+          <svg class="fidget-chevron" id="fidgetChevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+      <div class="fidget-body" id="fidgetBody">
+        <div class="fidget-panel-inner theme-gold" id="fidgetPanelInner">
+          <div class="fidget-grid">
+            <div class="fidget-cell" id="fidgetCellDial">
+              <div class="fidget-dial-wrap">
+                <div class="fidget-dial-track"></div>
+                <div class="fidget-dial-knob" id="fidgetDialKnob">
+                  <div class="fidget-dial-indicator"></div>
+                </div>
+              </div>
+              <span class="fidget-cell-label">Dial</span>
+            </div>
+            <div class="fidget-cell fidget-cell-ripple" id="fidgetCellRipple">
+              <canvas class="fidget-ripple-canvas" id="fidgetRippleCanvas"></canvas>
+            </div>
+            <div class="fidget-cell" id="fidgetCellClicky" style="flex-direction:column;gap:0;">
+              <button class="fidget-clicky-btn" id="fidgetClickyBtn"></button>
+              <span class="fidget-cell-label" style="position:relative;bottom:auto;left:auto;transform:none;margin-top:6px;">Click</span>
+            </div>
+            <div class="fidget-cell" style="flex-direction:row;gap:10px;background:var(--surface);" id="fidgetCellRocker">
+              <div class="fidget-rocker-wrap">
+                <span class="fidget-rocker-label active-label" id="fidgetRockerLabelUp">▲</span>
+                <div class="fidget-rocker up" id="fidgetRocker">
+                  <div class="fidget-rocker-paddle"></div>
+                </div>
+                <span class="fidget-rocker-label" id="fidgetRockerLabelDown">▼</span>
+              </div>
+              <span class="fidget-cell-label" style="position:relative;bottom:auto;left:auto;transform:none;">Rocker</span>
+            </div>
+            <div class="fidget-cell fidget-cell-slider" id="fidgetCellSlider">
+              <div class="fidget-slider-track" id="fidgetSliderTrack">
+                <div class="fidget-slider-fill" id="fidgetSliderFill"></div>
+                <div class="fidget-slider-thumb" id="fidgetSliderThumb"></div>
+              </div>
+              <span style="font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);font-family:'Syne',sans-serif;opacity:0.6;">Slider</span>
+            </div>
+          </div>
+          <div class="fidget-cell-switches">
+            <div class="fidget-switch-wrap" data-fsw="0"><div class="fidget-switch-body" id="fsw0"><div class="fidget-switch-nub"></div></div><span class="fidget-switch-num">1</span></div>
+            <div class="fidget-switch-wrap" data-fsw="1"><div class="fidget-switch-body" id="fsw1"><div class="fidget-switch-nub"></div></div><span class="fidget-switch-num">2</span></div>
+            <div class="fidget-switch-wrap" data-fsw="2"><div class="fidget-switch-body" id="fsw2"><div class="fidget-switch-nub"></div></div><span class="fidget-switch-num">3</span></div>
+            <div class="fidget-switch-wrap" data-fsw="3"><div class="fidget-switch-body" id="fsw3"><div class="fidget-switch-nub"></div></div><span class="fidget-switch-num">4</span></div>
+            <div class="fidget-switch-wrap" data-fsw="4"><div class="fidget-switch-body" id="fsw4"><div class="fidget-switch-nub"></div></div><span class="fidget-switch-num">5</span></div>
+          </div>
+        </div>
       </div>
     </div>
   </aside>
@@ -2441,6 +2715,303 @@ if (!getToken()) {
 } else {
   loadData();
 }
+
+// ── FIDGET WIDGET ─────────────────────────────────────────────────────
+(function() {
+  // Collapse/expand
+  const fidgetBody    = document.getElementById('fidgetBody');
+  const fidgetChevron = document.getElementById('fidgetChevron');
+  const fidgetHeader  = document.getElementById('fidgetPanelHeader');
+  let fidgetOpen = localStorage.getItem('nexus_fidget_open') === 'true';
+
+  function setFidgetOpen(val) {
+    fidgetOpen = val;
+    fidgetBody.classList.toggle('open', fidgetOpen);
+    fidgetChevron.classList.toggle('open', fidgetOpen);
+    localStorage.setItem('nexus_fidget_open', fidgetOpen);
+    if (fidgetOpen) resizeFidgetCanvas();
+  }
+  setFidgetOpen(fidgetOpen);
+
+  fidgetHeader.addEventListener('click', e => {
+    if (e.target.closest('.fidget-theme-dots') || e.target.closest('#fidgetSoundBtn')) return;
+    setFidgetOpen(!fidgetOpen);
+  });
+
+  // Audio
+  let fAudioCtx = null;
+  let fSoundOn = false;
+
+  function getFAudio() {
+    if (!fAudioCtx) fAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    return fAudioCtx;
+  }
+
+  function fPlayTone(freq, type = 'sine', duration = 0.06, gain = 0.12, attack = 0.002) {
+    if (!fSoundOn) return;
+    try {
+      const ctx = getFAudio();
+      const osc = ctx.createOscillator();
+      const env = ctx.createGain();
+      osc.connect(env); env.connect(ctx.destination);
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, ctx.currentTime);
+      env.gain.setValueAtTime(0, ctx.currentTime);
+      env.gain.linearRampToValueAtTime(gain, ctx.currentTime + attack);
+      env.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + duration + 0.01);
+    } catch(e) {}
+  }
+
+  function fPlayClick() {
+    if (!fSoundOn) return;
+    try {
+      const ctx = getFAudio();
+      [[180, 0.14, 0.08], [600, 0.08, 0.03]].forEach(([freq, gain, dur]) => {
+        const osc = ctx.createOscillator();
+        const env = ctx.createGain();
+        osc.connect(env); env.connect(ctx.destination);
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        env.gain.setValueAtTime(gain, ctx.currentTime);
+        env.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + dur + 0.01);
+      });
+    } catch(e) {}
+  }
+
+  function fPlaySnap() {
+    if (!fSoundOn) return;
+    try {
+      const ctx = getFAudio();
+      [320, 800].forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const env = ctx.createGain();
+        osc.connect(env); env.connect(ctx.destination);
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        env.gain.setValueAtTime(0.12 - i * 0.04, ctx.currentTime);
+        env.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.03);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.04);
+      });
+    } catch(e) {}
+  }
+
+  function fPlayWhoosh() {
+    if (!fSoundOn) return;
+    try {
+      const ctx = getFAudio();
+      const buf = ctx.createBuffer(1, ctx.sampleRate * 0.15, ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
+      const src = ctx.createBufferSource();
+      const filter = ctx.createBiquadFilter();
+      const env = ctx.createGain();
+      src.buffer = buf; filter.type = 'bandpass'; filter.frequency.value = 800;
+      src.connect(filter); filter.connect(env); env.connect(ctx.destination);
+      env.gain.setValueAtTime(0.08, ctx.currentTime);
+      env.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+      src.start();
+    } catch(e) {}
+  }
+
+  function fPlayRipple() { fPlayTone(440 + Math.random() * 200, 'sine', 0.12, 0.05, 0.001); }
+  function fPlayTick()   { fPlayTone(900, 'sine', 0.03, 0.06); }
+
+  // Sound toggle
+  const fSoundBtn = document.getElementById('fidgetSoundBtn');
+  fSoundBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    fSoundOn = !fSoundOn;
+    fSoundBtn.innerHTML = fSoundOn
+      ? `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>`
+      : `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>`;
+    fSoundBtn.classList.toggle('on', fSoundOn);
+    if (fSoundOn) fPlayClick();
+  });
+
+  // Theme
+  const fPanelInner = document.getElementById('fidgetPanelInner');
+  const savedFTheme = localStorage.getItem('nexus_fidget_theme') || 'gold';
+
+  function setFTheme(name) {
+    fPanelInner.className = fPanelInner.className.replace(/theme-\w+/, '');
+    fPanelInner.classList.add(`theme-${name}`);
+    document.querySelectorAll('.fidget-theme-dot').forEach(d => d.classList.toggle('active', d.dataset.ftheme === name));
+    localStorage.setItem('nexus_fidget_theme', name);
+  }
+  setFTheme(savedFTheme);
+
+  document.querySelectorAll('.fidget-theme-dot').forEach(dot => {
+    dot.addEventListener('click', e => { e.stopPropagation(); setFTheme(dot.dataset.ftheme); fPlayTick(); });
+  });
+
+  // Dial
+  const fDialKnob = document.getElementById('fidgetDialKnob');
+  let fDialAngle = 0, fDialDragging = false, fDialLastAngle = 0, fDialLastTick = 0;
+
+  function getFDialAngle(e, el) {
+    const rect = el.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    return Math.atan2(clientY - cy, clientX - cx) * (180 / Math.PI);
+  }
+
+  fDialKnob.addEventListener('mousedown', e => { fDialDragging = true; fDialLastAngle = getFDialAngle(e, fDialKnob); fDialKnob.classList.add('spinning'); e.preventDefault(); });
+  fDialKnob.addEventListener('touchstart', e => { fDialDragging = true; fDialLastAngle = getFDialAngle(e, fDialKnob); fDialKnob.classList.add('spinning'); e.preventDefault(); }, { passive: false });
+
+  document.addEventListener('mousemove', e => {
+    if (!fDialDragging) return;
+    const angle = getFDialAngle(e, fDialKnob);
+    let delta = angle - fDialLastAngle;
+    if (delta > 180) delta -= 360; if (delta < -180) delta += 360;
+    fDialAngle += delta; fDialLastAngle = angle;
+    fDialKnob.style.transform = `rotate(${fDialAngle}deg)`;
+    if (Math.abs(fDialAngle - fDialLastTick) >= 15) { fPlayTick(); fDialLastTick = fDialAngle; }
+  });
+  document.addEventListener('touchmove', e => {
+    if (!fDialDragging) return;
+    const angle = getFDialAngle(e, fDialKnob);
+    let delta = angle - fDialLastAngle;
+    if (delta > 180) delta -= 360; if (delta < -180) delta += 360;
+    fDialAngle += delta; fDialLastAngle = angle;
+    fDialKnob.style.transform = `rotate(${fDialAngle}deg)`;
+    if (Math.abs(fDialAngle - fDialLastTick) >= 15) { fPlayTick(); fDialLastTick = fDialAngle; }
+  }, { passive: false });
+  document.addEventListener('mouseup',  () => { if (fDialDragging) { fDialDragging = false; fDialKnob.classList.remove('spinning'); } });
+  document.addEventListener('touchend', () => { if (fDialDragging) { fDialDragging = false; fDialKnob.classList.remove('spinning'); } });
+
+  // Clicky
+  const fClickyBtn = document.getElementById('fidgetClickyBtn');
+  fClickyBtn.addEventListener('mousedown', () => { fClickyBtn.classList.add('pressed'); fPlayClick(); });
+  fClickyBtn.addEventListener('touchstart', () => { fClickyBtn.classList.add('pressed'); fPlayClick(); }, { passive: true });
+  document.addEventListener('mouseup',  () => fClickyBtn.classList.remove('pressed'));
+  document.addEventListener('touchend', () => fClickyBtn.classList.remove('pressed'));
+
+  // Rocker
+  const fRocker = document.getElementById('fidgetRocker');
+  const fRockerLabelUp = document.getElementById('fidgetRockerLabelUp');
+  const fRockerLabelDown = document.getElementById('fidgetRockerLabelDown');
+  let fRockerState = 'up';
+
+  fRocker.addEventListener('click', () => {
+    fRockerState = fRockerState === 'up' ? 'down' : 'up';
+    fRocker.className = `fidget-rocker ${fRockerState}`;
+    fRockerLabelUp.classList.toggle('active-label', fRockerState === 'up');
+    fRockerLabelDown.classList.toggle('active-label', fRockerState === 'down');
+    fPlaySnap();
+  });
+  fRocker.addEventListener('touchstart', e => { e.preventDefault(); fRocker.click(); }, { passive: false });
+
+  // Slider
+  const fSliderTrack = document.getElementById('fidgetSliderTrack');
+  const fSliderThumb = document.getElementById('fidgetSliderThumb');
+  const fSliderFill  = document.getElementById('fidgetSliderFill');
+  let fSliderDragging = false;
+
+  function setFSlider(val, animate = false) {
+    val = Math.max(0, Math.min(1, val));
+    const pct = val * 100;
+    if (!animate) { fSliderThumb.classList.add('dragging'); fSliderFill.classList.add('dragging'); }
+    else { fSliderThumb.classList.remove('dragging'); fSliderFill.classList.remove('dragging'); }
+    fSliderThumb.style.left = `${pct}%`;
+    fSliderFill.style.width = `${pct}%`;
+  }
+
+  function fSliderFromEvent(e) {
+    const rect = fSliderTrack.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    return (clientX - rect.left) / rect.width;
+  }
+
+  fSliderThumb.addEventListener('mousedown', e => { fSliderDragging = true; e.preventDefault(); });
+  fSliderThumb.addEventListener('touchstart', e => { fSliderDragging = true; e.preventDefault(); }, { passive: false });
+  fSliderTrack.addEventListener('mousedown', e => { fSliderDragging = true; setFSlider(fSliderFromEvent(e)); e.preventDefault(); });
+  fSliderTrack.addEventListener('touchstart', e => { fSliderDragging = true; setFSlider(fSliderFromEvent(e)); e.preventDefault(); }, { passive: false });
+  document.addEventListener('mousemove', e => { if (fSliderDragging) setFSlider(fSliderFromEvent(e)); });
+  document.addEventListener('touchmove', e => { if (fSliderDragging) setFSlider(fSliderFromEvent(e)); }, { passive: false });
+  document.addEventListener('mouseup', () => {
+    if (fSliderDragging) { fSliderDragging = false; setTimeout(() => setFSlider(0.5, true), 80); setTimeout(() => fPlayWhoosh(), 380); }
+  });
+  document.addEventListener('touchend', () => {
+    if (fSliderDragging) { fSliderDragging = false; setTimeout(() => setFSlider(0.5, true), 80); setTimeout(() => fPlayWhoosh(), 380); }
+  });
+
+  // Switches — pentatonic C4 D4 E4 G4 A4
+  const F_SWITCH_NOTES = [261.63, 293.66, 329.63, 392.00, 440.00];
+  document.querySelectorAll('.fidget-switch-wrap').forEach((wrap, i) => {
+    const body = wrap.querySelector('.fidget-switch-body');
+    function toggle() {
+      body.classList.toggle('on');
+      if (fSoundOn) fPlayTone(F_SWITCH_NOTES[i], 'sine', 0.18, 0.1, 0.002);
+    }
+    wrap.addEventListener('click', toggle);
+    wrap.addEventListener('touchstart', e => { e.preventDefault(); toggle(); }, { passive: false });
+  });
+
+  // Ripple canvas
+  const fCanvas = document.getElementById('fidgetRippleCanvas');
+  const fCtx = fCanvas.getContext('2d');
+  let fRipples = [];
+
+  function resizeFidgetCanvas() {
+    const rect = fCanvas.parentElement.getBoundingClientRect();
+    fCanvas.width  = rect.width;
+    fCanvas.height = rect.height;
+  }
+  new ResizeObserver(resizeFidgetCanvas).observe(fCanvas.parentElement);
+
+  function addFRipple(x, y) {
+    fRipples.push({ x, y, r: 0, alpha: 0.7, speed: 1.5 + Math.random() });
+    fPlayRipple();
+  }
+
+  function getFRippleColor() {
+    const style = getComputedStyle(fPanelInner);
+    return style.getPropertyValue('--ripple-color').trim() || 'rgba(200,169,110,0.35)';
+  }
+
+  function animateFRipples() {
+    fCtx.clearRect(0, 0, fCanvas.width, fCanvas.height);
+    fRipples = fRipples.filter(r => r.alpha > 0.01);
+    fRipples.forEach(r => {
+      fCtx.beginPath();
+      fCtx.arc(r.x, r.y, r.r, 0, Math.PI * 2);
+      fCtx.strokeStyle = getFRippleColor().replace(/[\d.]+\)$/, `${r.alpha})`);
+      fCtx.lineWidth = 1.5;
+      fCtx.stroke();
+      if (r.r > 10) {
+        fCtx.beginPath();
+        fCtx.arc(r.x, r.y, r.r * 0.5, 0, Math.PI * 2);
+        fCtx.strokeStyle = getFRippleColor().replace(/[\d.]+\)$/, `${r.alpha * 0.4})`);
+        fCtx.lineWidth = 1;
+        fCtx.stroke();
+      }
+      r.r += r.speed; r.alpha *= 0.94;
+    });
+    requestAnimationFrame(animateFRipples);
+  }
+  animateFRipples();
+
+  function fRippleAt(e) {
+    const rect = fCanvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    addFRipple(clientX - rect.left, clientY - rect.top);
+  }
+
+  fCanvas.addEventListener('click', fRippleAt);
+  fCanvas.addEventListener('touchstart', e => { e.preventDefault(); fRippleAt(e); }, { passive: false });
+  let fRippleInterval = null;
+  fCanvas.addEventListener('mousedown', e => { fRippleAt(e); fRippleInterval = setInterval(() => fRippleAt(e), 200); });
+  fCanvas.addEventListener('mouseup',    () => { clearInterval(fRippleInterval); fRippleInterval = null; });
+  fCanvas.addEventListener('mouseleave', () => { clearInterval(fRippleInterval); fRippleInterval = null; });
+  fCanvas.addEventListener('mousemove',  e => { if (fRippleInterval) { clearInterval(fRippleInterval); fRippleInterval = setInterval(() => fRippleAt(e), 200); } });
+})();
 </script>
 </body>
 </html>

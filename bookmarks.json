@@ -3,7 +3,7 @@
     {
       "id": "cat2",
       "name": "AI Tools",
-      "open": true,
+      "open": false,
       "links": [
         {
           "id": "xon03h2k",
@@ -82,7 +82,7 @@
     {
       "id": "cat1",
       "name": "Assorted",
-      "open": false,
+      "open": true,
       "links": [
         {
           "id": "xvo883ue",
@@ -952,5 +952,5 @@
       "color": "#6ec9b4"
     }
   ],
-  "scratch": "- Phase 2 in progress\n- See roadmap in GitHub repo\n- Web-based game?\n- Subscribe to https://www.twitch.tv/mattmalone when he is offline\n- DDG settings: oxidizing coroner activist dealer"
+  "scratch": "- Phase 2 in progress\n- See roadmap in GitHub repo\n- Web-based game?\n- Subscribe to https://www.twitch.tv/mattmalone when he is offline\n- DDG settings: oxidizing coroner activist dealer\n- https://www.mozilla.org/en-US/"
 }

@@ -2797,6 +2797,9 @@ if (!getToken()) {
 // ── FIDGET WIDGET ─────────────────────────────────────────────────────
 (function() {
   // Collapse/expand
+  // Declare fCanvas first — referenced by resizeFidgetCanvas which is called during init
+  const fCanvas          = document.getElementById('fidgetRippleCanvas');
+
   const fidgetBody    = document.getElementById('fidgetBody');
   const fidgetChevron = document.getElementById('fidgetChevron');
   const fidgetHeader  = document.getElementById('fidgetPanelHeader');
@@ -3032,7 +3035,6 @@ if (!getToken()) {
   });
 
   // Detach / float
-  const fCanvas          = document.getElementById('fidgetRippleCanvas');
   const fidgetFloat      = document.getElementById('fidgetFloat');
   const fidgetFloatInner = document.getElementById('fidgetFloatInner');
   const fidgetPanel      = document.getElementById('fidgetPanelInner');

@@ -162,6 +162,11 @@
           "id": "x8dac89u",
           "name": "YouTube",
           "url": "https://www.youtube.com/"
+        },
+        {
+          "id": "x5obu0lq",
+          "name": "Plex",
+          "url": "https://www.plex.tv/"
         }
       ],
       "pinned": false,

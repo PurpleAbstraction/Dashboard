@@ -175,7 +175,7 @@
     {
       "id": "xmjqiqo8",
       "name": "Gaming",
-      "open": true,
+      "open": false,
       "links": [
         {
           "id": "xqlh64hk",
@@ -459,7 +459,7 @@
     {
       "id": "cat1",
       "name": "Interests",
-      "open": false,
+      "open": true,
       "links": [
         {
           "id": "xvo883ue",
